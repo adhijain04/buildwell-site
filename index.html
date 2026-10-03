@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buildwell Labs — software built to a signed scope, a fixed price and a date</title>
+<meta name="description" content="Buildwell Labs builds internal tools and first web apps to a signed scope, a fixed price and a fixed date, with a written acceptance test for every deliverable.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Buildwell Labs">
+<meta property="og:description" content="A signed scope, a fixed price, a delivery date, and a written acceptance test for every deliverable. When the work turns out harder than we estimated, the price does not move.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23111418'/><path d='M9 22V10h6.4a3.3 3.3 0 0 1 .6 6.5v.2a3.5 3.5 0 0 1-.5 6.9H9Z' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linejoin='round'/></svg>">
+<style>
+  :root{
+    --ink:#111418; --ink-2:#2f3740; --ink-3:#5c6672; --line:#e3e6ea;
+    --bg:#ffffff; --bg-2:#f7f8f9; --bg-3:#eef0f2;
+    --accent:#1d4ed8; --accent-soft:#eef2ff;
+    --warn-bg:#fff8e6; --warn-line:#e8d9a8; --warn-ink:#6b5410;
+    --max:62rem; --radius:10px;
+    --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ink:#e9edf1; --ink-2:#c3ccd5; --ink-3:#8d99a6; --line:#2a3138;
+      --bg:#0f1317; --bg-2:#161b21; --bg-3:#1d242b;
+      --accent:#7ea2ff; --accent-soft:#182134;
+      --warn-bg:#241d08; --warn-line:#4a3c14; --warn-ink:#e3c979;
+    }
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+    font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 1.5rem}
+  a{color:var(--accent); text-decoration:none; border-bottom:1px solid color-mix(in srgb, var(--accent) 35%, transparent)}
+  a:hover{border-bottom-color:var(--accent)}
+  h1,h2,h3{line-height:1.2; letter-spacing:-.018em; margin:0}
+  h1{font-size:clamp(2rem,5.2vw,3.1rem); font-weight:680}
+  h2{font-size:clamp(1.35rem,3vw,1.75rem); font-weight:650; margin-bottom:.4rem}
+  h3{font-size:1.08rem; font-weight:650}
+  p{margin:.75rem 0}
+  section{padding:3.5rem 0; border-top:1px solid var(--line)}
+  section:first-of-type{border-top:0}
+  .eyebrow{
+    font:600 .72rem/1 var(--sans); letter-spacing:.12em; text-transform:uppercase;
+    color:var(--ink-3); margin-bottom:1rem;
+  }
+  .lede{font-size:1.1rem; color:var(--ink-2); max-width:44rem}
+  .muted{color:var(--ink-3)}
+  .small{font-size:.9rem}
+
+  /* header */
+  header{padding:2rem 0 .5rem}
+  .brand{display:flex; align-items:center; gap:.6rem; font-weight:680; letter-spacing:-.02em; font-size:1.05rem}
+  .brand .mark{
+    width:26px; height:26px; border-radius:6px; background:var(--ink); color:var(--bg);
+    display:grid; place-items:center; font-size:.85rem; font-weight:700; letter-spacing:0;
+  }
+  .brand small{font-weight:450; color:var(--ink-3); letter-spacing:0; font-size:.82rem; margin-left:.2rem}
+
+  /* hero */
+  .hero{padding:2.5rem 0 3.5rem}
+  .promise{
+    margin:1.75rem 0 0; padding:1.1rem 1.25rem; background:var(--bg-2);
+    border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:var(--radius);
+    font-size:1.02rem; color:var(--ink-2);
+  }
+  .promise b{color:var(--ink)}
+  .cta-row{display:flex; flex-wrap:wrap; gap:.7rem; align-items:center; margin-top:1.75rem}
+  .btn{
+    display:inline-block; padding:.72rem 1.15rem; border-radius:8px; font-weight:600; font-size:.95rem;
+    background:var(--ink); color:var(--bg); border:1px solid var(--ink); border-bottom-color:var(--ink);
+  }
+  .btn:hover{opacity:.88}
+  .btn.ghost{background:transparent; color:var(--ink); border-color:var(--line)}
+  .btn.ghost:hover{border-color:var(--ink-3); opacity:1}
+
+  /* grids */
+  .cols{display:grid; gap:1.25rem; grid-template-columns:repeat(auto-fit,minmax(16rem,1fr)); margin-top:1.5rem}
+  .card{
+    background:var(--bg-2); border:1px solid var(--line); border-radius:var(--radius); padding:1.25rem;
+  }
+  .card h3{margin-bottom:.35rem}
+  .card .who{font-size:.9rem; color:var(--ink-3); margin:0 0 .6rem}
+
+  /* packages */
+  .pkg{
+    border:1px solid var(--line); border-radius:var(--radius); padding:1.4rem; margin-top:1.1rem;
+    background:var(--bg);
+  }
+  .pkg.core{border-color:color-mix(in srgb, var(--accent) 45%, var(--line)); background:var(--bg-2)}
+  .pkg-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:.6rem; justify-content:space-between}
+  .pkg-name{font-size:1.2rem; font-weight:680; letter-spacing:-.02em}
+  .tag{
+    font:600 .68rem/1 var(--sans); letter-spacing:.09em; text-transform:uppercase;
+    background:var(--accent-soft); color:var(--accent); padding:.33rem .5rem; border-radius:5px;
+  }
+  .meta{display:flex; flex-wrap:wrap; gap:.5rem 1.4rem; margin:.85rem 0 0; font-size:.9rem}
+  .meta div{color:var(--ink-3)}
+  .meta b{color:var(--ink); font-weight:620; display:block; font-size:.95rem}
+  .outcome{margin:.85rem 0 0; color:var(--ink-2)}
+  ul{margin:.7rem 0; padding-left:1.15rem}
+  li{margin:.3rem 0}
+  .accept{
+    margin-top:1rem; padding-top:.85rem; border-top:1px dashed var(--line);
+    font-size:.92rem; color:var(--ink-2);
+  }
+  .accept b{color:var(--ink)}
+
+  /* notice */
+  .notice{
+    background:var(--warn-bg); border:1px solid var(--warn-line); color:var(--warn-ink);
+    border-radius:var(--radius); padding:.9rem 1.1rem; font-size:.92rem; margin:1.25rem 0;
+  }
+  .notice b{color:inherit}
+
+  /* details */
+  details{border:1px solid var(--line); border-radius:var(--radius); margin-top:.85rem; background:var(--bg-2)}
+  details[open]{background:var(--bg)}
+  summary{
+    cursor:pointer; padding:1rem 1.15rem; font-weight:620; list-style:none; display:flex; gap:.6rem;
+    align-items:baseline; justify-content:space-between;
+  }
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+"; color:var(--ink-3); font-weight:500; font-size:1.15rem; line-height:1}
+  details[open] summary::after{content:"−"}
+  summary .sub{font-weight:450; color:var(--ink-3); font-size:.88rem; display:block; margin-top:.15rem}
+  .d-body{padding:0 1.15rem 1.25rem; border-top:1px solid var(--line)}
+  .d-body h4{
+    font:600 .72rem/1 var(--sans); letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3);
+    margin:1.4rem 0 .4rem;
+  }
+  .d-body p:first-of-type{margin-top:1rem}
+  code{font-family:var(--mono); font-size:.88em; background:var(--bg-3); padding:.1rem .34rem; border-radius:4px}
+  .tbl{width:100%; border-collapse:collapse; margin:.6rem 0; font-size:.9rem; display:block; overflow-x:auto}
+  .tbl th,.tbl td{text-align:left; padding:.5rem .7rem; border-bottom:1px solid var(--line); vertical-align:top}
+  .tbl th{font-weight:620; color:var(--ink-3); font-size:.8rem; letter-spacing:.04em; text-transform:uppercase}
+
+  /* no-list */
+  .nolist{columns:2; column-gap:2rem; margin-top:1rem}
+  .nolist li{break-inside:avoid; margin:.45rem 0}
+  @media (max-width:640px){ .nolist{columns:1} }
+
+  /* booking */
+  .book{background:var(--bg-2); border:1px solid var(--line); border-radius:var(--radius); padding:1.75rem; margin-top:1.5rem}
+
+  footer{padding:2.5rem 0 3.5rem; border-top:1px solid var(--line); color:var(--ink-3); font-size:.88rem}
+  footer p{margin:.4rem 0}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <span class="mark" aria-hidden="true">B</span>
+      Buildwell Labs <small>— software consultancy</small>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ───────────────────────── HERO ───────────────────────── -->
+<section class="hero">
+  <div class="wrap">
+    <h1>We bring your vision to life &mdash; to a signed scope, a fixed price and a date.</h1>
+    <p class="lede">Buildwell Labs builds internal tools and first web applications for founders and
+      small operations teams. You get a written scope you sign before anything starts, one price that
+      does not move, a delivery date, and an acceptance test per deliverable so &ldquo;done&rdquo; is
+      never a matter of opinion.</p>
+
+    <div class="promise">
+      A freelancer sells you hours and a place in their queue. <b>Buildwell sells you a signed scope with
+      a fixed price, a delivery date, and a written acceptance test for every deliverable &mdash; and when
+      the work turns out harder than we estimated, the price does not move.</b>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn" href="#book">Book a 30-minute call</a>
+      <a class="btn ghost" href="#thinking">See how we scope work</a>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────── WHO FOR ───────────────────────── -->
+<section id="who">
+  <div class="wrap">
+    <p class="eyebrow">What we build, and who for</p>
+    <h2>Two kinds of client, one kind of problem</h2>
+    <p class="lede">Both have a job that software should be doing and no engineer to do it. We are a fit
+      when the job can be written down in a page and finished in eight weeks or less.</p>
+
+    <div class="cols">
+      <div class="card">
+        <h3>Ops running on spreadsheets</h3>
+        <p class="who">10&ndash;50 person service businesses &mdash; recruiting, freight and logistics,
+          clinics, property management, equipment rental.</p>
+        <p class="small">Your operations run on Google Sheets, WhatsApp groups and somebody re-typing
+          data between two tools you already pay for. We build the internal tool that ends that: a
+          quoting or dispatch tool, a CRM-lite, a client portal, an integration, an owner's dashboard.</p>
+      </div>
+      <div class="card">
+        <h3>A deck, but no developer</h3>
+        <p class="who">Non-technical founders, pre-seed or bootstrapped, 1&ndash;3 people.</p>
+        <p class="small">You have a deck, a waitlist or three mockups, and nobody to build it. We build
+          the first working version &mdash; sign-in, the one core workflow, payments, an admin view &mdash;
+          live on a URL you own, so you can put it in front of users or an investor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────── PACKAGES ───────────────────────── -->
+<section id="packages">
+  <div class="wrap">
+    <p class="eyebrow">How to work with us</p>
+    <h2>Three packages. Fixed scope, fixed date.</h2>
+    <p class="lede">No hourly billing, no retainers to start, no open-ended scope. Pick the one that
+      matches where you are. Most clients start with Blueprint, because it is the cheapest way to find
+      out what a build actually costs &mdash; and it is credited back in full if you go on to build with us.</p>
+
+    <!-- Blueprint -->
+    <article class="pkg">
+      <div class="pkg-head">
+        <span class="pkg-name">Blueprint</span>
+        <span class="tag">Start here</span>
+      </div>
+      <p class="outcome">You walk away knowing exactly what will be built, what it costs and when it
+        lands &mdash; with artifacts you own whether or not you hire us for the build.</p>
+      <div class="meta">
+        <div>Duration<b>1 week</b></div>
+        <div>Price<b>Quoted on the call</b></div>
+        <div>If you build with us<b>Credited back in full</b></div>
+      </div>
+      <ul>
+        <li>60-minute kickoff call plus up to 3 written Q&amp;A rounds.</li>
+        <li>A clickable prototype of your core workflow &mdash; 4 to 8 screens.</li>
+        <li>A written technical specification: data model, integrations, third-party services, named risks.</li>
+        <li>A fixed-price, fixed-date build quote with acceptance criteria per deliverable.</li>
+        <li>A 2-page handover so the artifacts are usable by any other developer.</li>
+      </ul>
+      <p class="small muted"><b>Not included:</b> production code, a deployed app, a database, design or
+        brand work, or any commitment from either side to proceed to a build.</p>
+      <p class="accept"><b>Acceptance:</b> all five artifacts delivered by end of day 5, and you confirm
+        in writing that the spec matches what you meant. The full fee is credited against a build started
+        within 30 days.</p>
+    </article>
+
+    <!-- Launchpad -->
+    <article class="pkg core">
+      <div class="pkg-head">
+        <span class="pkg-name">Launchpad</span>
+        <span class="tag">Most clients</span>
+      </div>
+      <p class="outcome">One working web application, live on the internet on a URL you own, that does
+        the single job you hired us for &mdash; real users can sign in and complete the workflow end to end.</p>
+      <div class="meta">
+        <div>Duration<b>4 weeks from signed scope</b></div>
+        <div>Price<b>Quoted on the call</b></div>
+        <div>After launch<b>14 days of defect fixes</b></div>
+      </div>
+      <ul>
+        <li>One core workflow, up to 8 screens, up to 2 integrations from a pre-approved list
+          (Stripe, Google or email sign-in, Sheets, Slack, email/SMS).</li>
+        <li>Email and social login, one user role plus an admin view.</li>
+        <li>Deployed to managed hosting, on your own accounts and your own domain.</li>
+        <li>A demo on a live staging URL every Friday &mdash; four demos, four chances to correct course.</li>
+        <li>Full source code in your repository, with a README another developer can follow.</li>
+        <li>14 days of defect fixes after acceptance: anything that does not match the signed scope, fixed free.</li>
+      </ul>
+      <p class="small muted"><b>Not included:</b> native iOS/Android apps (the web app is mobile-responsive;
+        app-store builds are not included), scope added after signature, data migration off legacy systems,
+        hosting or subscription fees, uptime guarantees or on-call.</p>
+      <p class="accept"><b>Acceptance:</b> every item in the signed scope document demonstrated working on
+        the production URL by the end-of-week-4 date.</p>
+    </article>
+
+    <!-- Buildout -->
+    <article class="pkg">
+      <div class="pkg-head">
+        <span class="pkg-name">Buildout</span>
+        <span class="tag">Replace the spreadsheets</span>
+      </div>
+      <p class="outcome">A multi-workflow internal system that replaces the spreadsheets and the manual
+        copy-paste between your existing tools &mdash; with your team trained on it and 30 days of us
+        standing behind it.</p>
+      <div class="meta">
+        <div>Duration<b>8 weeks from signed scope</b></div>
+        <div>Price<b>Quoted on the call</b></div>
+        <div>After launch<b>30 days of support</b></div>
+      </div>
+      <ul>
+        <li>Everything in Launchpad, scaled to 3 connected workflows, up to 20 screens, up to 4 integrations.</li>
+        <li>Multiple user roles and permissions.</li>
+        <li>A reporting dashboard with CSV export.</li>
+        <li>One scheduled job &mdash; a nightly sync, a recurring report, reminder emails.</li>
+        <li>Two 60-minute training sessions plus a written user guide.</li>
+        <li>30 days of post-launch support: defect fixes plus up to 8 hours of small changes.</li>
+        <li>A named weekly checkpoint with the founder, in writing.</li>
+      </ul>
+      <p class="small muted"><b>Not included:</b> everything excluded from Launchpad, plus regulated-data
+        work needing certification we do not hold (no HIPAA, SOC&nbsp;2 or PCI deliverables), re-writing a
+        production system already carrying live customer traffic, scale engineering beyond ~100 concurrent
+        users, and any integration without a documented public API.</p>
+      <p class="accept"><b>Acceptance:</b> all three workflows demonstrated with your real data by the
+        end-of-week-8 date, signed off one workflow at a time.</p>
+    </article>
+
+    <p class="small muted" style="margin-top:1.5rem">Ongoing maintenance exists as an add-on once we have
+      built your app &mdash; business hours, two-business-day response, a fixed monthly allowance for small
+      changes. It is offered at handover, not sold up front, and we keep only a small number of slots so
+      that support never competes with a live build. <b>We do not promise uptime to anyone.</b></p>
+
+    <p class="small" style="margin-top:1rem">Prices are fixed per package and quoted on the call, in your
+      currency, against your written scope &mdash; one number, with the credit-back and the acceptance terms
+      above attached to it. If the budget does not fit, the lever is scope: we drop a screen or an
+      integration. The number does not move afterwards.</p>
+  </div>
+</section>
+
+<!-- ───────────────────────── PROOF ───────────────────────── -->
+<section id="thinking">
+  <div class="wrap">
+    <p class="eyebrow">Proof</p>
+    <h2>We are a new firm. Here is our thinking instead of a client list.</h2>
+    <p class="lede">Buildwell Labs has no delivered clients yet, so there are no logos, testimonials or
+      case studies on this page &mdash; and there will not be any until they are real. What we can show you
+      is the work that happens before a line of code: how a one-sentence brief becomes a scope with a
+      price and a date attached, and what we refuse to put in it.</p>
+
+    <div class="notice">
+      <b>Read these as worked examples, not case studies.</b> All three briefs below are illustrative
+      scenarios written by us to demonstrate method. They are not past clients, not real companies, and
+      no result in them was delivered to anybody. Every number in them is an estimate, labelled as one.
+    </div>
+
+    <!-- Example 1 -->
+    <details>
+      <summary>
+        <span>Worked example 1 &mdash; Recruiting agency, 18 staff: candidate pipeline living in Sheets and WhatsApp
+          <span class="sub">Illustrative · scoped as a 4-week Launchpad</span></span>
+      </summary>
+      <div class="d-body">
+        <h4>The brief, as it usually arrives</h4>
+        <p>&ldquo;We're a recruitment agency. Everything is in spreadsheets and the recruiters lose track of
+          candidates. We need a proper system.&rdquo;</p>
+
+        <h4>The five questions we ask before quoting anything</h4>
+        <ol>
+          <li><b>Where does a candidate actually get lost?</b> Between first call and client submission,
+            or after submission while waiting on the client? These are two different tools. (Assume: the
+            second &mdash; it is the usual answer, and it is the one that costs the agency money.)</li>
+          <li><b>Who else must see this?</b> Recruiters only, or do client-side hiring managers log in?
+            A client-facing portal roughly doubles the surface: permissions, invitations, an audit trail.</li>
+          <li><b>What is the single number the owner checks on Monday morning?</b> That number defines
+            the dashboard. Everything else is a nice-to-have.</li>
+          <li><b>Where do CVs live today, and must they stay there?</b> Google Drive is an integration.
+            Uploading into our own storage is not. The answer changes a week of work.</li>
+          <li><b>How many open roles at once, and how many candidates per role?</b> 40 roles × 30
+            candidates is a list view. 400 × 300 is a search problem, and a different quote.</li>
+        </ol>
+
+        <h4>What we would build &mdash; the scope that fits 4 weeks</h4>
+        <p><b>One workflow:</b> candidate moves from <code>sourced</code> to <code>placed</code>, and the
+          agency always knows who is waiting on whom.</p>
+        <table class="tbl">
+          <tr><th>Data model</th><th>Why it is shaped this way</th></tr>
+          <tr><td><code>Role</code> &mdash; client, title, fee basis, status</td><td>The billable unit. Everything hangs off it.</td></tr>
+          <tr><td><code>Candidate</code> &mdash; person, contact, CV link</td><td>Exists independently of any role, so one person can be put forward twice.</td></tr>
+          <tr><td><code>Submission</code> &mdash; role × candidate, stage, owner, next action, due date</td><td>The join table <em>is</em> the product. "Lost candidates" is always a missing next-action-plus-owner.</td></tr>
+          <tr><td><code>StageEvent</code> &mdash; append-only history</td><td>Lets us answer "how long do we sit in client review" without any extra reporting work later.</td></tr>
+        </table>
+        <p><b>Eight screens:</b> role list · role detail with its pipeline · candidate list · candidate
+          detail · submission drawer (stage, owner, next action) · my-week view (everything due, by owner)
+          · owner dashboard (time-in-stage, placements this month, CSV export) · admin (users, clients,
+          stage names).</p>
+        <p><b>Two integrations:</b> Google sign-in, so nobody manages another password. Google Drive, so
+          CVs stay where recruiters already put them &mdash; we store a link and a permission check, not a copy.</p>
+
+        <h4>What we would deliberately cut, and say so on day one</h4>
+        <ul>
+          <li><b>WhatsApp integration.</b> Everyone asks. The Business API needs a Meta business
+            verification and message templates approved by Meta &mdash; a dependency we do not control,
+            inside a four-week fixed date. We ship a <em>copy-to-WhatsApp</em> button instead: same
+            minute saved, none of the risk.</li>
+          <li><b>CV parsing / AI ranking.</b> Accuracy here is unbounded work and the acceptance test
+            would be a matter of taste. Out of scope by name, in writing.</li>
+          <li><b>Email sync.</b> Reading recruiters' inboxes is a second project with its own privacy
+            conversation.</li>
+          <li><b>Bulk import of three years of old spreadsheets.</b> Excluded. We import open roles only;
+            history stays in Sheets, read-only.</li>
+        </ul>
+
+        <h4>Named risks, and who carries them</h4>
+        <table class="tbl">
+          <tr><th>Risk</th><th>Our answer</th></tr>
+          <tr><td>Drive permissions differ per recruiter, so a CV link 404s for a colleague</td><td>Ours. We check access at render time and show an explicit "ask the owner for access" state rather than a broken link.</td></tr>
+          <tr><td>Stage names get argued about in week 3 and the workflow changes</td><td>Shared. Stages are admin-configurable data, not code &mdash; so the argument costs an afternoon, not a change order.</td></tr>
+          <tr><td>Recruiters keep using the spreadsheet in parallel</td><td>Yours, and it is the real risk. Mitigation is the Monday dashboard: once the owner reads placements from the tool, the spreadsheet stops being the source of truth within a week.</td></tr>
+        </table>
+
+        <h4>The acceptance test we would sign</h4>
+        <p>On the production URL, by the end-of-week-4 date: a recruiter signs in with Google, creates a
+          role, attaches two candidates, advances one through every stage to <code>placed</code>, and the
+          owner dashboard shows that placement plus a correct average time-in-stage, exported to CSV. Any
+          item in the signed scope that does not do this is a defect and is fixed free inside the 14-day window.</p>
+        <p class="small muted"><b>Effort estimate [illustrative]:</b> ~170 hours of equivalent senior
+          engineering. That is a Launchpad, at the 8-screen and 2-integration ceiling &mdash; not below it.
+          If questions 2 or 5 above come back the other way (a client portal, or 400 live roles), this is a
+          Buildout and we say so before quoting, not in week 3.</p>
+      </div>
+    </details>
+
+    <!-- Example 2 -->
+    <details>
+      <summary>
+        <span>Worked example 2 &mdash; Freight broker, 30 staff: quoting and dispatch across Sheets, WhatsApp and a telephone
+          <span class="sub">Illustrative · scoped as an 8-week Buildout</span></span>
+      </summary>
+      <div class="d-body">
+        <h4>The brief, as it usually arrives</h4>
+        <p>&ldquo;We quote loads over the phone, write them on a sheet, and then call drivers to assign
+          them. We lose money on quotes we price wrong and we can never tell a customer where their
+          shipment is.&rdquo;</p>
+
+        <h4>Why this is a Buildout and not a Launchpad &mdash; decided before the quote, not during</h4>
+        <p>There are three workflows here, not one, and they cannot be separated without the tool being
+          useless: <b>quote</b> &rarr; <b>dispatch</b> &rarr; <b>status to customer</b>. A Launchpad that
+          shipped only quoting would leave dispatch on the spreadsheet, which means double entry, which
+          means the tool gets abandoned. We would rather name the bigger package up front than deliver a
+          working quarter of a system and watch it go unused.</p>
+
+        <h4>The three workflows, and the acceptance test for each</h4>
+        <table class="tbl">
+          <tr><th>Workflow</th><th>What it replaces</th><th>Signed off when</th></tr>
+          <tr><td><b>1. Quote</b> &mdash; lane, weight, equipment, cost lines, margin, expiry</td><td>The pricing spreadsheet and the mental arithmetic</td><td>A dispatcher prices a real lane in under 2 minutes and the margin shown matches the finance team's own calculation on the same inputs.</td></tr>
+          <tr><td><b>2. Dispatch</b> &mdash; accepted quote becomes a load; assign carrier/driver; status checkpoints</td><td>The WhatsApp group and the call-around</td><td>A load moves <code>booked</code> &rarr; <code>picked&nbsp;up</code> &rarr; <code>delivered</code> with timestamps, and no load can be assigned to two carriers at once.</td></tr>
+          <tr><td><b>3. Customer status</b> &mdash; a read-only tracking link per load</td><td>"Where is my shipment?" phone calls</td><td>The customer opens a link with no login and sees the current checkpoint and the ETA, and nothing about margin or carrier cost.</td></tr>
+        </table>
+
+        <h4>The data-model decision that matters most</h4>
+        <p><code>Quote</code> and <code>Load</code> are separate records, and a <code>Load</code> stores a
+          <em>frozen copy</em> of the quote's cost lines rather than a reference to them. Every ops tool we
+          have seen get this wrong gets it wrong the same way: someone re-prices a quote after the load is
+          running, and last month's margin reports silently change. A frozen copy makes history
+          immutable and the owner's margin number trustworthy &mdash; which is the entire reason they are
+          buying this.</p>
+
+        <h4>What we refuse, and why it protects the date</h4>
+        <ul>
+          <li><b>Live GPS tracking.</b> That is a telematics integration per carrier, and carriers are not
+            our vendors. We ship manual checkpoints plus a driver-facing status link. If GPS is
+            non-negotiable, it is a separate project after an integration review &mdash; priced then.</li>
+          <li><b>Automatic rate-engine pricing from market data.</b> Rate APIs are paid, per-lane and
+            licence-restricted. We build the margin calculator the brokers already reason with, and leave
+            the rate source as a field they type into.</li>
+          <li><b>Invoicing and accounting posting.</b> Ends at CSV export. Writing into their accounting
+            system crosses into financial reconciliation, which we do not take on.</li>
+          <li><b>Anything load-board-integrated.</b> No documented public API we can rely on &rarr; outside
+            our integration rule.</li>
+        </ul>
+
+        <h4>The eight weeks, as we would commit them</h4>
+        <table class="tbl">
+          <tr><th>Weeks</th><th>Demoed on the Friday</th></tr>
+          <tr><td>1&ndash;2</td><td>Quote workflow end to end, with their real lanes and their margin formula.</td></tr>
+          <tr><td>3&ndash;4</td><td>Dispatch: quote &rarr; load, carrier assignment, the double-assignment guard. <b>Workflow 1 signed off here.</b></td></tr>
+          <tr><td>5&ndash;6</td><td>Checkpoints, the public tracking link, roles and permissions. <b>Workflow 2 signed off.</b></td></tr>
+          <tr><td>7</td><td>Owner dashboard: margin by lane, by customer, by carrier; CSV export; the nightly summary email.</td></tr>
+          <tr><td>8</td><td>Training (two sessions), user guide, production cutover. <b>Workflow 3 signed off.</b></td></tr>
+        </table>
+        <p class="small muted"><b>Effort estimate [illustrative]:</b> ~330 hours, 4 integrations at the
+          ceiling (Google sign-in, email/SMS send, Sheets import, Slack alerts). Signing off one workflow
+          at a time is the point: if week 4 reveals the margin formula is more complicated than described,
+          we re-plan weeks 5&ndash;8 together while two-thirds of the value is already accepted and in use.</p>
+      </div>
+    </details>
+
+    <!-- Example 3 -->
+    <details>
+      <summary>
+        <span>Worked example 3 &mdash; Spec teardown: turning &ldquo;build us an app like Uber but for equipment rental&rdquo; into something quotable
+          <span class="sub">Illustrative · how a vague brief becomes a Blueprint, in one week</span></span>
+      </summary>
+      <div class="d-body">
+        <h4>Why this example exists</h4>
+        <p>Most briefs arrive as a comparison to an app the client admires. A comparison is not a
+          specification, and quoting one is how fixed-price projects lose money &mdash; for us, which then
+          becomes a problem for the client. This is the teardown we do instead, and it is exactly what the
+          Blueprint buys.</p>
+
+        <h4>Step 1 &mdash; Separate the one job from the admiration</h4>
+        <p>&ldquo;Like Uber&rdquo; usually names four products at once: a consumer marketplace, a supply-side
+          app, real-time dispatch, and a payments ledger. We ask one question: <b>if only one of these
+          worked on launch day, which one earns or saves money this quarter?</b></p>
+        <table class="tbl">
+          <tr><th>What they said</th><th>What it turns out to mean</th><th>Build it now?</th></tr>
+          <tr><td>"Customers book equipment from their phone"</td><td>Availability is currently a phone call to the yard, and double-bookings cost a cancelled job</td><td><b>Yes.</b> This is the whole first build.</td></tr>
+          <tr><td>"Like Uber &mdash; they see it on a map"</td><td>Equipment sits at two depots and does not move while rented</td><td><b>No.</b> A depot picker, not a map. Saves two weeks.</td></tr>
+          <tr><td>"Drivers get a job on their phone"</td><td>Three delivery drivers, already in one WhatsApp group</td><td><b>Not yet.</b> A printable run sheet covers it for now.</td></tr>
+          <tr><td>"Surge pricing"</td><td>Weekend rates are higher &mdash; two numbers in a table</td><td><b>Yes</b>, as a rate table. Not an algorithm.</td></tr>
+          <tr><td>"Payments in the app"</td><td>60% of revenue is invoiced monthly to trade accounts</td><td><b>Card for walk-ins only.</b> Trade accounts stay on invoice.</td></tr>
+        </table>
+        <p>Four of the five sentences shrank. That is the normal outcome, and it is worth more than any
+          discount we could offer.</p>
+
+        <h4>Step 2 &mdash; Find the hard part early</h4>
+        <p>In rental, the hard part is never the booking form. It is the <b>availability calculation</b>:
+          an item is unavailable for its rental window <em>plus</em> transport and service buffers, across
+          overlapping bookings, with blackout dates. This is where a cheap quote quietly dies, so we build
+          it on day one of the Blueprint &mdash; a bare screen that answers "what can I rent on Tuesday",
+          with the client's real inventory and their real buffers. If that is wrong, everything built on
+          top of it is wrong, and we would rather know in week one of a cheap engagement than in week
+          three of an expensive one.</p>
+
+        <h4>Step 3 &mdash; What the client holds at the end of the week</h4>
+        <ol>
+          <li>A clickable prototype: catalogue &rarr; date picker with real availability &rarr; booking
+            &rarr; confirmation &rarr; staff view of tomorrow's dispatches.</li>
+          <li>A written spec: the data model (<code>Asset</code>, <code>AssetUnit</code>,
+            <code>Booking</code>, <code>RateCard</code>, <code>BlackoutDate</code>), the availability rule
+            in plain English next to its pseudocode, and the integration list.</li>
+          <li>A fixed-price, fixed-date quote for the build, with the acceptance test written out.</li>
+          <li>The named risks: payment-gateway onboarding time, who owns a damage dispute, and what
+            happens when a renter keeps an item two days longer.</li>
+          <li>A handover note good enough to take to a different developer. The Blueprint is useful even
+            if you never hire us &mdash; that is deliberate.</li>
+        </ol>
+
+        <h4>Step 4 &mdash; What the teardown is allowed to conclude</h4>
+        <p>Sometimes the honest answer is <b>don't build this</b>, or <b>this is bigger than eight weeks
+          and we are not the right firm.</b> The Blueprint fee covers us saying that out loud, with the
+          artifacts to back it up and the reasoning written down &mdash; which is a cheaper week than
+          finding out during a build.</p>
+        <p class="small muted"><b>Illustrative throughout.</b> No client said these words; the brief is a
+          composite written to show the method. The availability rule, the shrink table and the risk list
+          are the parts we would actually produce.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ───────────────────────── HOW WE DE-RISK ───────────────────────── -->
+<section id="guarantee">
+  <div class="wrap">
+    <p class="eyebrow">Why this is safe to buy from a new firm</p>
+    <h2>The structure is the guarantee</h2>
+    <div class="cols">
+      <div class="card">
+        <h3>Nothing starts without a signed scope</h3>
+        <p class="small">Every deliverable is written down with its own acceptance test before any money
+          moves. &ldquo;Done&rdquo; is defined in the document, not argued about at the end.</p>
+      </div>
+      <div class="card">
+        <h3>A demo every Friday, on a live URL</h3>
+        <p class="small">Four chances to correct course on a four-week build &mdash; not one reveal at the
+          end. You see real software every week, not a status update.</p>
+      </div>
+      <div class="card">
+        <h3>The price does not move</h3>
+        <p class="small">If the work turns out harder than we estimated, that is our problem. If you add
+          scope, that is a change order with its own price and date &mdash; agreed in writing, never a surprise.</p>
+      </div>
+      <div class="card">
+        <h3>No lock-in to us</h3>
+        <p class="small">Code ships in your repository, on your hosting accounts and your domain, with a
+          README another developer can follow. Leaving is always possible, which is why you can start.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────── WHAT WE DON'T DO ───────────────────────── -->
+<section id="limits">
+  <div class="wrap">
+    <p class="eyebrow">Limits, stated up front</p>
+    <h2>What we do not take on</h2>
+    <p class="lede">A firm that takes everything finishes nothing. If your project is on this list we
+      will tell you on the first call and, where we can, point you somewhere better.</p>
+    <ul class="nolist">
+      <li><b>Hourly or staff-augmentation work.</b> We do not rent developers by the hour or sit in your
+        standups. Fixed scope, fixed price, fixed date &mdash; or no deal.</li>
+      <li><b>Anything we cannot finish in eight weeks.</b> If it is bigger than Buildout, we say so.</li>
+      <li><b>Native mobile apps and app-store submission.</b> Mobile-responsive web only.</li>
+      <li><b>Regulated or certified work.</b> No HIPAA, SOC&nbsp;2, PCI, or anything needing a medical or
+        financial licence.</li>
+      <li><b>24/7 support, on-call, weekend response or uptime SLAs.</b> Maintenance is business hours,
+        two-business-day response. We do not promise uptime to anyone.</li>
+      <li><b>Rescues of live production systems</b>, legacy re-writes and data migrations off old platforms.</li>
+      <li><b>Design, branding, marketing, SEO, content or ads.</b> We build on a clean standard component
+        library.</li>
+      <li><b>Open-ended scope.</b> Changes after signature get their own price and their own date.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ───────────────────────── BOOK ───────────────────────── -->
+<section id="book">
+  <div class="wrap">
+    <p class="eyebrow">Next step</p>
+    <h2>Book a 30-minute call</h2>
+    <div class="book">
+      <p style="margin-top:0">Bring the job you want software to do. In 30 minutes you will get a straight
+        answer on which package fits, what it costs, and whether we are the wrong firm for it &mdash; which
+        we will say if it is true. No deck, no discovery process to buy before you hear a price.</p>
+      <div class="cta-row" style="margin-top:1.25rem">
+        <!-- BOOKING_LINK: replace this href with the founder's booking URL. See the `site` document, founder action 2. -->
+        <a class="btn" id="book-cta"
+           href="mailto:adhijain04@gmail.com?subject=Buildwell%20%E2%80%94%2030-minute%20call&amp;body=What%20we%20want%20built%3A%0A%0AWho%20uses%20it%20today%20and%20how%20(the%20spreadsheet%2C%20the%20WhatsApp%20group)%3A%0A%0ARough%20deadline%2C%20if%20there%20is%20one%3A%0A%0ABest%20times%20for%20a%2030-minute%20call%20(with%20your%20timezone)%3A%0A">Email us to set up a call</a>
+        <span class="small muted">Replies within one business day, IST business hours.</span>
+      </div>
+      <p class="small muted" style="margin-bottom:0">A calendar booking link is being set up. Until it is
+        live, email is the fastest route &mdash; the link above opens a pre-filled message with the four
+        things we need to make the call useful.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b style="color:var(--ink-2)">Buildwell Labs</b> &mdash; a software consultancy. We bring a
+      customer's vision to life.</p>
+    <p>Buildwell Labs is a new firm. This page makes no claim about past clients, and the worked examples
+      in the Proof section are illustrative scenarios written by us to demonstrate method &mdash; not case
+      studies, not real engagements, and not results delivered to anyone. Scope, duration and acceptance
+      terms shown here are the terms we work to. Prices are quoted per engagement against your written
+      scope.</p>
+  </div>
+</footer>
+
+</body>
+</html>
