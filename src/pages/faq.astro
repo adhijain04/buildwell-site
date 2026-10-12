@@ -1,0 +1,43 @@
+---
+import Base from "../layouts/Base.astro";
+// Each answer stands alone so a search engine or an AI model can quote one without the rest.
+const faqs = [
+  ["What does Buildwell Labs do?",
+   "Buildwell Labs is a software consultancy that builds internal tools and first web applications for founders and small operations teams, to a signed scope, a fixed price and a fixed delivery date, with a written acceptance test for every deliverable."],
+  ["Who is Buildwell Labs for?",
+   "Buildwell Labs works with two kinds of client: 10–50 person service businesses whose operations run on spreadsheets and WhatsApp groups (recruiting, freight and logistics, clinics, equipment rental), and non-technical founders, pre-seed or bootstrapped, who need the first working version of their product built."],
+  ["How much does Buildwell Labs cost?",
+   "Buildwell Labs sells three fixed-price packages, quoted in INR and exclusive of GST: Blueprint at ₹50,000 for one week, Launchpad at ₹4,00,000 for four weeks, and Buildout at ₹9,00,000 for eight weeks. Clients invoicing from outside India are quoted on a separate international sheet."],
+  ["What is the Blueprint package?",
+   "Blueprint is Buildwell Labs' one-week, ₹50,000 package. It delivers a clickable prototype of the core workflow (4 to 8 screens), a written technical specification, a fixed-price fixed-date build quote with acceptance criteria, and a 2-page handover. The full fee is credited back against a build started within 30 days."],
+  ["What is the Launchpad package?",
+   "Launchpad is Buildwell Labs' four-week, ₹4,00,000 package: one working web application live on a domain the client owns, with one core workflow, up to 8 screens, up to 2 integrations, email and social login, an admin view, a demo every Friday, full source code, and 14 days of free defect fixes after acceptance."],
+  ["What is the Buildout package?",
+   "Buildout is Buildwell Labs' eight-week, ₹9,00,000 package: a multi-workflow internal system with up to 3 connected workflows, 20 screens and 4 integrations, multiple user roles, a reporting dashboard with CSV export, one scheduled job, two training sessions, and 30 days of post-launch support."],
+  ["Does Buildwell Labs charge by the hour?",
+   "No. Buildwell Labs does not do hourly billing, retainers or staff augmentation. Every engagement has a signed scope, a fixed price and a fixed date. If the work turns out harder than estimated, the price does not move; added scope becomes a written change order with its own price and date."],
+  ["What does Buildwell Labs not build?",
+   "Buildwell Labs does not take on native iOS or Android apps, projects longer than eight weeks, regulated work needing HIPAA, SOC 2 or PCI certification, 24/7 support or uptime SLAs, rescues or rewrites of live production systems, data migrations off legacy platforms, or design, branding, marketing and SEO work."],
+  ["Who owns the code Buildwell Labs writes?",
+   "The client does. Buildwell Labs ships code into the client's own repository, deploys to the client's own hosting accounts and domain, and includes a README another developer can follow, so the client is never locked in."],
+  ["Has Buildwell Labs delivered client projects before?",
+   "Not yet. Buildwell Labs is a new firm with no delivered clients, so its site shows no logos, testimonials or case studies. The worked examples on its site are illustrative scenarios written to demonstrate how it scopes work, not real engagements."],
+  ["How do I start a project with Buildwell Labs?",
+   "Email Buildwell Labs to book a free 30-minute call. Bring the job you want software to do; you get a straight answer on which package fits, what it costs, and whether Buildwell Labs is the wrong firm for it. Replies come within one business day, IST business hours."],
+];
+---
+<Base title="FAQ — Buildwell Labs" description="Answers to common questions about Buildwell Labs: what it builds, who for, what it costs, and what it does not take on.">
+  <section id="faq">
+    <div class="wrap">
+      <p class="eyebrow">FAQ</p>
+      <h1>Questions people ask us</h1>
+      {faqs.map(([q, a]) => (
+        <details>
+          <summary>{q}</summary>
+          <p style="padding:0 1.3rem 1.15rem; margin:0">{a}</p>
+        </details>
+      ))}
+      <p style="margin-top:2rem"><a class="btn" href="/#book">Book a 30-minute call</a></p>
+    </div>
+  </section>
+</Base>

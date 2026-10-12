@@ -1,21 +1,26 @@
 ---
 import "@fontsource-variable/inter-tight";
 import "../styles/global.css";
+const {
+  title = "Buildwell Labs — software built to a signed scope, a fixed price and a date",
+  description = "Buildwell Labs builds internal tools and first web apps to a signed scope, a fixed price and a fixed date, with a written acceptance test for every deliverable.",
+} = Astro.props;
+const url = new URL(Astro.url.pathname, "https://buildwelllabs.com");
 ---
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Buildwell Labs — software built to a signed scope, a fixed price and a date</title>
-<meta name="description" content="Buildwell Labs builds internal tools and first web apps to a signed scope, a fixed price and a fixed date, with a written acceptance test for every deliverable.">
+<title>{title}</title>
+<meta name="description" content={description}>
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="Buildwell Labs">
 <meta property="og:description" content="A signed scope, a fixed price, a delivery date, and a written acceptance test for every deliverable. When the work turns out harder than we estimated, the price does not move.">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="canonical" href="https://buildwelllabs.com/">
-<meta property="og:url" content="https://buildwelllabs.com/">
+<link rel="canonical" href={url}>
+<meta property="og:url" content={url}>
 <meta property="og:image" content="https://buildwelllabs.com/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -30,12 +35,13 @@ import "../styles/global.css";
       Buildwell Labs <small>— software consultancy</small>
     </div>
     <nav class="nav" aria-label="Sections">
-      <a href="#who">Who it's for</a>
-      <a href="#packages">Packages</a>
-      <a href="#thinking">How we scope</a>
-      <a href="#guarantee">Guarantee</a>
+      <a href="/#who">Who it's for</a>
+      <a href="/#packages">Packages</a>
+      <a href="/#thinking">How we scope</a>
+      <a href="/#guarantee">Guarantee</a>
+      <a href="/faq/">FAQ</a>
     </nav>
-    <a class="btn pill" href="#book">Book a call <span class="arrow" aria-hidden="true">&rarr;</span></a>
+    <a class="btn pill" href="/#book">Book a call <span class="arrow" aria-hidden="true">&rarr;</span></a>
   </div>
 </header>
 
@@ -52,6 +58,7 @@ import "../styles/global.css";
       studies, not real engagements, and not results delivered to anyone. Scope, duration and acceptance
       terms shown here are the terms we work to. Prices shown are our India sheet in INR, exclusive of GST,
       and are confirmed against your written scope before anything starts.</p>
+    <p><a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/faq/">FAQ</a></p>
   </div>
 </footer>
 

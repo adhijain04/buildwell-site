@@ -1,0 +1,23 @@
+# Buildwell Labs
+
+> Buildwell Labs is a software consultancy in India that builds internal tools and first web applications for founders and small operations teams, to a signed scope, a fixed price and a fixed date, with a written acceptance test for every deliverable.
+
+Buildwell Labs is a new firm with no delivered clients yet; the worked examples on its site are illustrative, not case studies. Prices are in INR, exclusive of GST.
+
+## Services
+
+- [Packages](https://buildwelllabs.com/#packages): Blueprint (₹50,000, 1 week, credited back if you build), Launchpad (₹4,00,000, 4 weeks, one live web app), Buildout (₹9,00,000, 8 weeks, replaces the spreadsheets)
+- [Who it's for](https://buildwelllabs.com/#who): 10–50 person service businesses running on spreadsheets, and non-technical founders with no developer
+- [Limits](https://buildwelllabs.com/#limits): no hourly work, no native mobile apps, no regulated (HIPAA/SOC 2/PCI) work, no projects over eight weeks
+
+## Method
+
+- [How we scope](https://buildwelllabs.com/#thinking): three worked examples of turning a brief into a fixed-price scope
+- [Guarantee](https://buildwelllabs.com/#guarantee): signed scope, weekly demo, fixed price, no lock-in
+
+## Contact
+
+- [FAQ](https://buildwelllabs.com/faq/): standalone answers on services, pricing and limits
+- [Book a call](https://buildwelllabs.com/#book): 30-minute call by email, replies within one business day (IST)
+- [Privacy Policy](https://buildwelllabs.com/privacy/): no cookies or trackers; what happens to emails you send
+- [Terms of Use](https://buildwelllabs.com/terms/): site prices are indicative; every engagement runs on its own signed contract
